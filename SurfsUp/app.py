@@ -8,6 +8,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 
+
 import flask
 from flask import Flask
 from flask import jsonify
@@ -16,16 +17,17 @@ from flask import jsonify
 #################################################
 # Database Setup
 #################################################
-engine= create_engine("sqlite:///Resources.hawaii.sqlite")
+engine= create_engine("sqlite:///../Resources.hawaii.sqlite")
 
 # reflect an existing database into a new model
 Base=automap_base()
 
 # reflect the tables
-Base.prepare(engine, reflect=True, autoload_with=engine)
+Base.prepare(engine, reflect=True)
+print(Base.classes.keys())
 
 # Save references to each table
-Measurement = Base.classes.measurement
+Measurement = Base.classes.measurements
 Station= Base.classes.station 
 
 # Create our session (link) from Python to the DB
@@ -109,4 +111,4 @@ def stats(start=None, end=None):
         return jsonify(temps=temps)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
