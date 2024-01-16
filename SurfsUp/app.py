@@ -8,8 +8,6 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 
-
-import flask
 from flask import Flask
 from flask import jsonify
 
@@ -68,7 +66,6 @@ def precipitation():
     precipitation= {date: precipitation for date in precipitation}
     return jsonify(precipitation)
 
-
 #stations
 # Return a JSON list of stations from the dataset.
 @app.route("/api/v1.0/stations")
@@ -112,3 +109,7 @@ def stats(start=None, end=None):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+#################################################
+#################################################
+#################################################
