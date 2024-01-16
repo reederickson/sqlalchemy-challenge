@@ -27,7 +27,7 @@ Base.prepare(engine, reflect=True)
 print(Base.classes.keys())
 
 # Save references to each table
-Measurement = Base.classes.measurements
+Measurement = Base.classes.measurement
 Station= Base.classes.station 
 
 # Create our session (link) from Python to the DB
