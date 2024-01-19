@@ -14,8 +14,8 @@ from flask import jsonify
 
 #################################################
 # Database Setup
-#################################################
-engine= create_engine("sqlite:///../Resources.hawaii.sqlite")
+################################################
+engine= create_engine("sqlite:///./Resources/hawaii.sqlite")
 
 # reflect an existing database into a new model
 Base=automap_base()
@@ -46,11 +46,11 @@ def welcome():
         f"Available Routes:<br/>"
         '''
         Welcome to the Climate Analysis API!  <br/>
-        The Available Routes:
-        /api/v1.0/precipitation
-        /api/v1.0/stations
-        /api/v1.0/tobs
-        /api/v1.0/temp/start/end
+        The Available Routes: <br/>
+        /api/v1.0/precipitation <br/>
+        /api/v1.0/stations <br/>
+        /api/v1.0/tobs <br/>
+        /api/v1.0/start/end <br/>
         '''
     )
 
@@ -63,8 +63,15 @@ def precipitation():
     previous_year = dt.date(2017, 8, 23) - dt.timedelta(days=365)
     precipitation = session.query(Measurement.date, Measurement.prcp).\
     filter(Measurement.date >= previous_year).all()
-    precipitation= {date: precipitation for date in precipitation}
-    return jsonify(precipitation)
+    clean_data={}
+    for measurment in precipitation:
+        dtm,prcp=measurment
+        clean_data[dtm]=prcp    
+    # print("==========================")
+    # print(precipitation)
+    # print("==========================")
+
+    return jsonify(clean_data)
 
 #stations
 # Return a JSON list of stations from the dataset.
@@ -101,7 +108,7 @@ def stats(start=None, end=None):
         temps= list(np.ravel(results))
         return jsonify(temps)
     else:
-        results.session.query(*sel).\
+        results=session.query(*sel).\
             filter(Measurement.date >= start).\
             filter(Measurement.date <= end).all()
         temps=list(np.ravel(results))
